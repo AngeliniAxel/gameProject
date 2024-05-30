@@ -1,6 +1,7 @@
 import { Router, Request, Response } from 'express';
 import pool from '../db';
-const bcrypt = require('bcrypt');
+import bcrypt from 'bcrypt';
+import jwtGenerator from '../utils/jwtGenerator';
 
 const router = Router();
 
@@ -24,16 +25,18 @@ router.post('/register', async (req: Request, res: Response) => {
     const saltRound: number = 10;
     const bcryptPassword = await bcrypt.hash(password, saltRound);
 
-    // TODO: Enter the new user inside our database
+    // Enter the new user inside our database
 
     const newUser = await pool.query(
       'INSERT INTO users(user_name, user_last_name, user_email,user_password) VALUES ($1, $2, $3, $4) RETURNING *',
       [name, lastName, email, bcryptPassword]
     );
 
-    res.json(newUser.rows[0]);
+    // Generate jwt token
 
-    // TODO: Generate jwt token
+    const token: string = jwtGenerator(newUser.rows[0].user_id);
+
+    res.json({ token });
   } catch (err) {
     // Ensure err is of type Error
     if (err instanceof Error) {
