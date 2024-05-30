@@ -1,0 +1,11 @@
+Game project
+
+- Use private routes for different levels so I have and excuse to use authorization
+
+- user_id uuid PRIMARY KEY DEFAULT uuid_generate_v4()    (crateextension if not exists uuid-ossp)
+
+- npm init -y
+
+- npm install express @types/express typescript ts-node-dev
+
+- npm i express cors pg jasonwebtoken bcrypt
