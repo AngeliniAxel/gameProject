@@ -2,11 +2,12 @@ import { Router, Request, Response } from 'express';
 import pool from '../db';
 import bcrypt from 'bcrypt';
 import jwtGenerator from '../utils/jwtGenerator';
+import validInfo from '../middleware/validInfo';
 
 const router = Router();
 
 // Register route
-router.post('/register', async (req: Request, res: Response) => {
+router.post('/register', validInfo, async (req: Request, res: Response) => {
   try {
     // Destructure the req.body
     const { name, lastName, email, password } = req.body;
@@ -49,7 +50,8 @@ router.post('/register', async (req: Request, res: Response) => {
   }
 });
 
-router.post('/login', async (req: Request, res: Response) => {
+// Login route
+router.post('/login', validInfo, async (req: Request, res: Response) => {
   try {
     // destructure the req.body
 
@@ -85,10 +87,10 @@ router.post('/login', async (req: Request, res: Response) => {
     // Ensure err is of type Error
     if (err instanceof Error) {
       console.error(err.message);
-      res.status(500).send('Server Error');
+      return res.status(500).send('Server Error');
     } else {
       console.error('Unexpected error', err);
-      res.status(500).send('Unexpected Error');
+      return res.status(500).send('Unexpected Error');
     }
   }
 });
