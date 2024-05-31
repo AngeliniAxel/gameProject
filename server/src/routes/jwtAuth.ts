@@ -3,6 +3,7 @@ import pool from '../db';
 import bcrypt from 'bcrypt';
 import jwtGenerator from '../utils/jwtGenerator';
 import validInfo from '../middleware/validInfo';
+import authorization from '../middleware/authorization';
 
 const router = Router();
 
@@ -83,6 +84,21 @@ router.post('/login', validInfo, async (req: Request, res: Response) => {
     const token: string = jwtGenerator(user.rows[0].user_id);
 
     res.json({ token });
+  } catch (err) {
+    // Ensure err is of type Error
+    if (err instanceof Error) {
+      console.error(err.message);
+      return res.status(500).send('Server Error');
+    } else {
+      console.error('Unexpected error', err);
+      return res.status(500).send('Unexpected Error');
+    }
+  }
+});
+
+router.get('/is-verify', authorization, async (req: Request, res: Response) => {
+  try {
+    res.json(true);
   } catch (err) {
     // Ensure err is of type Error
     if (err instanceof Error) {

@@ -8,7 +8,6 @@ const validInfo = (req: Request, res: Response, next: NextFunction): void => {
   }
 
   if (req.path === '/register') {
-    console.log(!email?.length);
     if (![email, name, password].every(Boolean)) {
       res.status(401).json('Missing Credentials');
       return;
