@@ -27,7 +27,6 @@ const authorization = async (
     ) as JwtPayload;
 
     req.user = payload.user;
-    console.log(req.user);
     next();
   } catch (err) {
     if (err instanceof Error) {
