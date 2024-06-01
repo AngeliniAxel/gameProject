@@ -3,6 +3,7 @@ import express, { Application } from 'express';
 import cors from 'cors';
 
 import jwtAuthRouter from './routes/jwtAuth';
+import dashboardRouter from './routes/dashboard';
 
 // Create an instance of the express application
 const app: Application = express();
@@ -17,8 +18,10 @@ app.use(express.json());
 app.use(cors());
 
 // Register and login routes
-
 app.use('/auth', jwtAuthRouter);
+
+// Dashboard route
+app.use('/dashboard', dashboardRouter);
 
 // Start the server and listen on the specified port
 app.listen(PORT, () => {
