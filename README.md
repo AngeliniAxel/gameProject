@@ -4,6 +4,6 @@ The idea is to create a web app with a game developed in phaser.js and using rea
 
 Users will be able to create account, personalize their character and save game level.
 
-For now I only have the basic set up of the app and the registration route.
+For now I only have all the back end routes, but nothing in the front end yet.
 
 I will be updating this project any time soon!
