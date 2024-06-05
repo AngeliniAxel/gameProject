@@ -3,12 +3,15 @@ import React, { Fragment, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
+import Alert from 'react-bootstrap/Alert';
 
 interface RegisterProps {
   setAuth: (isAuthenticated: boolean) => void;
 }
 
 // taking values from user input
+
+const SERVER_API_ROUTE: string = 'http://localhost:5000';
 
 const Register: React.FC<RegisterProps> = ({ setAuth }) => {
   const [inputs, setInputs] = useState({
@@ -38,10 +41,45 @@ const Register: React.FC<RegisterProps> = ({ setAuth }) => {
     setShowRepeatPassword((prevShowRepeatPassword) => !prevShowRepeatPassword);
   };
 
+  const [passwordsMatch, setPasswordsMatch] = useState(true);
+
+  //managing On submit button
+
+  const onSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      // Check if passwords match
+      if (password !== repeatPassword) {
+        setPasswordsMatch(false);
+      } else {
+        setPasswordsMatch(true);
+
+        const body = { name, lastName, email, password };
+
+        const response = await fetch(`${SERVER_API_ROUTE}/auth/register`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body),
+        });
+
+        const parseRes = await response.json();
+
+        console.log(parseRes);
+      }
+    } catch (err) {
+      // Ensure err is of type Error
+      if (err instanceof Error) {
+        console.error(err.message);
+      } else {
+        console.error('Unexpected error', err);
+      }
+    }
+  };
+
   return (
     <Fragment>
       <h1 className='text-center my-5'>Register</h1>
-      <Form>
+      <Form onSubmit={onSubmitForm}>
         <Form.Group className='mb-3' controlId='name'>
           <Form.Label>Name</Form.Label>
           <Form.Control
@@ -115,6 +153,11 @@ const Register: React.FC<RegisterProps> = ({ setAuth }) => {
             </Button>
           </InputGroup>
         </Form.Group>
+
+        {/* Conditional rendering of the password mismatch alert */}
+        {!passwordsMatch && (
+          <Alert variant='danger'>Passwords do not match.</Alert>
+        )}
 
         <Button variant='primary' type='submit'>
           Submit
