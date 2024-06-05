@@ -1,19 +1,19 @@
 import React, { Fragment, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Alert from 'react-bootstrap/Alert';
 
+const SERVER_API_ROUTE: string = 'http://localhost:5000';
+
 interface RegisterProps {
   setAuth: (isAuthenticated: boolean) => void;
 }
 
-// taking values from user input
-
-const SERVER_API_ROUTE: string = 'http://localhost:5000';
-
 const Register: React.FC<RegisterProps> = ({ setAuth }) => {
+  // taking values from user input
   const [inputs, setInputs] = useState({
     name: '',
     lastName: '',
@@ -44,7 +44,6 @@ const Register: React.FC<RegisterProps> = ({ setAuth }) => {
   const [passwordsMatch, setPasswordsMatch] = useState(true);
 
   //managing On submit button
-
   const onSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
@@ -64,7 +63,9 @@ const Register: React.FC<RegisterProps> = ({ setAuth }) => {
 
         const parseRes = await response.json();
 
-        console.log(parseRes);
+        localStorage.setItem('token', parseRes.token);
+
+        setAuth(true);
       }
     } catch (err) {
       // Ensure err is of type Error
@@ -163,6 +164,9 @@ const Register: React.FC<RegisterProps> = ({ setAuth }) => {
           Submit
         </Button>
       </Form>
+      <p>
+        Already have an account? <Link to='/login'>Click here</Link> to login
+      </p>
     </Fragment>
   );
 };
