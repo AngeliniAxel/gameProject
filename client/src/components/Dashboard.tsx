@@ -1,6 +1,8 @@
 import React, { Fragment, useState, useEffect, useCallback } from 'react';
 import Button from 'react-bootstrap/Button';
 
+import { toast } from 'react-toastify';
+
 // Define the server API route as a constant
 const SERVER_API_ROUTE: string = 'http://localhost:5000';
 
@@ -69,6 +71,7 @@ const Dashboard: React.FC<DashboardProps> = ({ setAuth }) => {
     e.preventDefault();
     localStorage.removeItem('token');
     setAuth(false);
+    toast.success('You logged out successfully!!');
   };
 
   return (

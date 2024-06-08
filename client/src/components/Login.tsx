@@ -6,6 +6,8 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Alert from 'react-bootstrap/Alert';
 
+import { toast } from 'react-toastify';
+
 const SERVER_API_ROUTE: string = 'http://localhost:5000';
 
 interface LoginProps {
@@ -61,8 +63,11 @@ const Login: React.FC<LoginProps> = ({ setAuth }) => {
 
       if (!parseRes.token) {
         updateCredentials(false, parseRes);
+        toast.error(parseRes);
       } else {
         localStorage.setItem('token', parseRes.token);
+
+        toast.success('Login successfully!!');
 
         setAuth(true);
       }

@@ -6,6 +6,8 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Alert from 'react-bootstrap/Alert';
 
+import { toast } from 'react-toastify';
+
 const SERVER_API_ROUTE: string = 'http://localhost:5000';
 
 interface RegisterProps {
@@ -63,9 +65,15 @@ const Register: React.FC<RegisterProps> = ({ setAuth }) => {
 
         const parseRes = await response.json();
 
-        localStorage.setItem('token', parseRes.token);
+        if (parseRes.token) {
+          localStorage.setItem('token', parseRes.token);
 
-        setAuth(true);
+          toast.success('User created successfully!!!');
+          setAuth(true);
+        } else {
+          setAuth(false);
+          toast.error(parseRes);
+        }
       }
     } catch (err) {
       // Ensure err is of type Error

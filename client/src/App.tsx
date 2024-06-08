@@ -1,6 +1,9 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import './App.css';
 
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import {
   BrowserRouter as Router,
   Routes,
@@ -85,6 +88,7 @@ function App() {
           </Routes>
         </div>
       </Router>
+      <ToastContainer />
     </Fragment>
   );
 }
