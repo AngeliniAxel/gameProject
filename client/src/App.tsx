@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import './App.css';
 
 import {
@@ -13,12 +13,39 @@ import Dashboard from './components/Dashboard';
 import Login from './components/Login';
 import Register from './components/Register';
 
+// Define the server API route as a constant
+const SERVER_API_ROUTE: string = 'http://localhost:5000';
+
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const setAuth = (boolean: boolean) => {
     setIsAuthenticated(boolean);
   };
+
+  async function isAuth() {
+    try {
+      const response = await fetch(`${SERVER_API_ROUTE}/auth/is-verify`, {
+        method: 'GET',
+        headers: { token: localStorage.token },
+      });
+
+      const parseRes = await response.json();
+
+      parseRes === true ? setIsAuthenticated(true) : setIsAuthenticated(false);
+    } catch (err) {
+      // Ensure err is of type Error
+      if (err instanceof Error) {
+        console.error(err.message);
+      } else {
+        console.error('Unexpected error', err);
+      }
+    }
+  }
+
+  useEffect(() => {
+    isAuth();
+  });
 
   return (
     <Fragment>
