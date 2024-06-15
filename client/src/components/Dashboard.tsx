@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { toast } from 'react-toastify';
 import { AppDispatch, RootState } from '../store';
-import { fetchUserData } from '../features/userSlice';
+import { fetchUserData, logoutUser } from '../features/userSlice';
 import { Spinner } from 'react-bootstrap';
 
 // Define the props for the Dashboard component
@@ -25,6 +25,7 @@ const Dashboard: React.FC<DashboardProps> = ({ setAuth }) => {
   const logout = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     localStorage.removeItem('token');
+    dispatch(logoutUser());
     setAuth(false);
     toast.success('You logged out successfully!!');
   };
