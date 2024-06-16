@@ -1,5 +1,8 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import './App.css';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { setIsAuth } from './features/userSlice';
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -15,16 +18,14 @@ import {
 import Dashboard from './components/Dashboard';
 import Login from './components/Login';
 import Register from './components/Register';
+import { AppDispatch, RootState } from './store';
 
 // Define the server API route as a constant
 const SERVER_API_ROUTE: string = 'http://localhost:5000';
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  const setAuth = (boolean: boolean) => {
-    setIsAuthenticated(boolean);
-  };
+  const dispatch = useDispatch<AppDispatch>();
+  const userState = useSelector((state: RootState) => state.user);
 
   async function isAuth() {
     try {
@@ -35,7 +36,11 @@ function App() {
 
       const parseRes = await response.json();
 
-      parseRes === true ? setIsAuthenticated(true) : setIsAuthenticated(false);
+      console.log(parseRes);
+
+      parseRes === true
+        ? dispatch(setIsAuth(true))
+        : dispatch(setIsAuth(false));
     } catch (err) {
       // Ensure err is of type Error
       if (err instanceof Error) {
@@ -58,31 +63,19 @@ function App() {
             <Route
               path='/login'
               element={
-                !isAuthenticated ? (
-                  <Login setAuth={setAuth} />
-                ) : (
-                  <Navigate to='/dashboard' />
-                )
+                !userState.isAuth ? <Login /> : <Navigate to='/dashboard' />
               }
             ></Route>
             <Route
               path='/register'
               element={
-                !isAuthenticated ? (
-                  <Register setAuth={setAuth} />
-                ) : (
-                  <Navigate to='/login' />
-                )
+                !userState.isAuth ? <Register /> : <Navigate to='/login' />
               }
             ></Route>
             <Route
               path='/dashboard'
               element={
-                isAuthenticated ? (
-                  <Dashboard setAuth={setAuth} />
-                ) : (
-                  <Navigate to='/login' />
-                )
+                userState.isAuth ? <Dashboard /> : <Navigate to='/login' />
               }
             ></Route>
           </Routes>

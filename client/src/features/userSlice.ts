@@ -14,6 +14,7 @@ interface UserInitialState {
   user: UserInfo | null;
   error: string | null;
   success: boolean;
+  isAuth: boolean;
 }
 
 export const fetchUserData = createAsyncThunk<UserInfo, void>(
@@ -49,6 +50,7 @@ const initialState: UserInitialState = {
   user: null, // for user object
   error: null,
   success: false, // for monitoring the registration process.
+  isAuth: false,
 };
 
 const userSlice = createSlice({
@@ -57,6 +59,9 @@ const userSlice = createSlice({
   reducers: {
     logoutUser: () => {
       return initialState;
+    },
+    setIsAuth: (state, action: PayloadAction<boolean>) => {
+      state.isAuth = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -79,5 +84,5 @@ const userSlice = createSlice({
   },
 });
 
-export const { logoutUser } = userSlice.actions;
+export const { logoutUser, setIsAuth } = userSlice.actions;
 export default userSlice.reducer;

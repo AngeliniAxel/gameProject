@@ -7,12 +7,7 @@ import { AppDispatch, RootState } from '../store';
 import { fetchUserData, logoutUser } from '../features/userSlice';
 import { Spinner } from 'react-bootstrap';
 
-// Define the props for the Dashboard component
-interface DashboardProps {
-  setAuth: (isAuthenticated: boolean) => void;
-}
-
-const Dashboard: React.FC<DashboardProps> = ({ setAuth }) => {
+const Dashboard = () => {
   const dispatch = useDispatch<AppDispatch>();
   const userState = useSelector((state: RootState) => state.user);
 
@@ -26,7 +21,7 @@ const Dashboard: React.FC<DashboardProps> = ({ setAuth }) => {
     e.preventDefault();
     localStorage.removeItem('token');
     dispatch(logoutUser());
-    setAuth(false);
+    //setAuth(false);
     toast.success('You logged out successfully!!');
   };
 

@@ -7,14 +7,16 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import Alert from 'react-bootstrap/Alert';
 
 import { toast } from 'react-toastify';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../store';
+import { fetchUserData, setIsAuth } from '../features/userSlice';
 
 const SERVER_API_ROUTE: string = 'http://localhost:5000';
 
-interface RegisterProps {
-  setAuth: (isAuthenticated: boolean) => void;
-}
+const Register = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const userState = useSelector((state: RootState) => state.user);
 
-const Register: React.FC<RegisterProps> = ({ setAuth }) => {
   // taking values from user input
   const [inputs, setInputs] = useState({
     name: '',
@@ -64,14 +66,16 @@ const Register: React.FC<RegisterProps> = ({ setAuth }) => {
         });
 
         const parseRes = await response.json();
-
+        console.log(parseRes);
         if (parseRes.token) {
           localStorage.setItem('token', parseRes.token);
 
           toast.success('User created successfully!!!');
-          setAuth(true);
+
+          dispatch(setIsAuth(true));
+          dispatch(fetchUserData());
         } else {
-          setAuth(false);
+          dispatch(setIsAuth(false));
           toast.error(parseRes);
         }
       }

@@ -7,14 +7,15 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import Alert from 'react-bootstrap/Alert';
 
 import { toast } from 'react-toastify';
+import { setIsAuth } from '../features/userSlice';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../store';
 
 const SERVER_API_ROUTE: string = 'http://localhost:5000';
 
-interface LoginProps {
-  setAuth: (isAuthenticated: boolean) => void;
-}
+const Login = () => {
+  const dispatch = useDispatch<AppDispatch>();
 
-const Login: React.FC<LoginProps> = ({ setAuth }) => {
   // taking values from user input
   const [inputs, setInputs] = useState({
     email: '',
@@ -69,7 +70,7 @@ const Login: React.FC<LoginProps> = ({ setAuth }) => {
 
         toast.success('Login successfully!!');
 
-        setAuth(true);
+        dispatch(setIsAuth(true));
       }
     } catch (err) {
       // Ensure err is of type Error
