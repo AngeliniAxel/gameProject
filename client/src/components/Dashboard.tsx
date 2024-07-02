@@ -19,7 +19,7 @@ const Dashboard = () => {
   // Function to handle user logout
   const logout = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    localStorage.removeItem('token');
+    localStorage.removeItem('accessToken');
     dispatch(logoutUser());
     //setAuth(false);
     toast.success('You logged out successfully!!');

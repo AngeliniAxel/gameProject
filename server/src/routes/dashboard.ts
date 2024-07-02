@@ -1,6 +1,7 @@
 import { Router, Request, Response } from 'express';
 import pool from '../db';
 import authorization from '../middleware/authorization';
+import { refreshJwtGenerator } from '../utils/jwtGenerator';
 
 const router = Router();
 

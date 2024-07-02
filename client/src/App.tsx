@@ -7,6 +7,8 @@ import { setIsAuth } from './features/userSlice';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import './style/styles.scss';
+
 import {
   BrowserRouter as Router,
   Routes,
@@ -18,7 +20,10 @@ import {
 import Dashboard from './components/Dashboard';
 import Login from './components/Login';
 import Register from './components/Register';
+import Footer from './components/Footer/Footer';
 import { AppDispatch, RootState } from './store';
+import { Navbar } from 'react-bootstrap';
+import NavBar from './components/NavBar/NavBar';
 
 // Define the server API route as a constant
 const SERVER_API_ROUTE: string = 'http://localhost:5000';
@@ -31,7 +36,8 @@ function App() {
     try {
       const response = await fetch(`${SERVER_API_ROUTE}/auth/is-verify`, {
         method: 'GET',
-        headers: { token: localStorage.token },
+        headers: { accessToken: localStorage.accessToken },
+        credentials: 'include',
       });
 
       const parseRes = await response.json();
@@ -57,6 +63,7 @@ function App() {
 
   return (
     <Fragment>
+      <NavBar />
       <Router>
         <div className='container'>
           <Routes>
@@ -82,6 +89,7 @@ function App() {
         </div>
       </Router>
       <ToastContainer />
+      <Footer />
     </Fragment>
   );
 }

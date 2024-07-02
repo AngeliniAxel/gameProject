@@ -23,7 +23,8 @@ export const fetchUserData = createAsyncThunk<UserInfo, void>(
     try {
       const response = await fetch(`${SERVER_API_ROUTE}/dashboard`, {
         method: 'GET',
-        headers: { token: localStorage.token },
+        headers: { accessToken: localStorage.accessToken },
+        credentials: 'include',
       });
 
       const parseRes = await response.json();

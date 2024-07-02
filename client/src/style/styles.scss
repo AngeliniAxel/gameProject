@@ -1,0 +1,23 @@
+@import './variables.scss';
+
+.wrapper {
+  max-width: 500px;
+  background-color: $white;
+  margin: auto;
+  border: 3px solid $green;
+  padding: 50px;
+  margin-top: 100px;
+  margin-bottom: 100px;
+  //justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Estilo adicional para asegurar que no haya margen superior excesivo en dispositivos pequeños */
+@media screen and (max-width: 500px) {
+  .wrapper {
+    position: relative;
+    top: 70px;
+    max-width: 350px;
+    margin: center;
+  }
+}

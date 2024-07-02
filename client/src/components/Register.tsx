@@ -11,6 +11,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../store';
 import { fetchUserData, setIsAuth } from '../features/userSlice';
 
+import '../style/styles.scss';
+
 const SERVER_API_ROUTE: string = 'http://localhost:5000';
 
 const Register = () => {
@@ -67,8 +69,8 @@ const Register = () => {
 
         const parseRes = await response.json();
         console.log(parseRes);
-        if (parseRes.token) {
-          localStorage.setItem('token', parseRes.token);
+        if (parseRes.accessToken) {
+          localStorage.setItem('token', parseRes.accessToken);
 
           toast.success('User created successfully!!!');
 
@@ -91,94 +93,96 @@ const Register = () => {
 
   return (
     <Fragment>
-      <h1 className='text-center my-5'>Register</h1>
-      <Form onSubmit={onSubmitForm}>
-        <Form.Group className='mb-3' controlId='name'>
-          <Form.Label>Name</Form.Label>
-          <Form.Control
-            type='text'
-            name='name'
-            placeholder='Name'
-            value={name}
-            onChange={onChange}
-          />
-        </Form.Group>
-
-        <Form.Group className='mb-3' controlId='formLastName'>
-          <Form.Label>Last Name</Form.Label>
-          <Form.Control
-            type='text'
-            name='lastName'
-            placeholder='Last name'
-            value={lastName}
-            onChange={onChange}
-          />
-        </Form.Group>
-
-        <Form.Group className='mb-3' controlId='formEmail'>
-          <Form.Label>Email address</Form.Label>
-          <Form.Control
-            type='email'
-            name='email'
-            placeholder='Enter email'
-            value={email}
-            onChange={onChange}
-          />
-          <Form.Text className='text-muted'>
-            We'll never share your email with anyone else.
-          </Form.Text>
-        </Form.Group>
-
-        <Form.Group className='mb-3' controlId='formPassword'>
-          <Form.Label>Password</Form.Label>
-          <InputGroup>
+      <div className='wrapper'>
+        <h1 className='text-center my-5'>Register</h1>
+        <Form onSubmit={onSubmitForm}>
+          <Form.Group className='mb-3' controlId='name'>
+            <Form.Label>Name</Form.Label>
             <Form.Control
-              type={showPassword ? 'text' : 'password'}
-              name='password'
-              placeholder='Password'
-              value={password}
+              type='text'
+              name='name'
+              placeholder='Name'
+              value={name}
               onChange={onChange}
             />
-            <Button
-              variant='outline-secondary'
-              onClick={togglePasswordVisibility}
-            >
-              {showPassword ? 'Hide' : 'Show'}
-            </Button>
-          </InputGroup>
-        </Form.Group>
+          </Form.Group>
 
-        <Form.Group className='mb-3' controlId='formRepeatPassword'>
-          <Form.Label>Repeat password</Form.Label>
-          <InputGroup>
+          <Form.Group className='mb-3' controlId='formLastName'>
+            <Form.Label>Last Name</Form.Label>
             <Form.Control
-              type={showRepeatPassword ? 'text' : 'password'}
-              name='repeatPassword'
-              placeholder='Repeat password'
-              value={repeatPassword}
+              type='text'
+              name='lastName'
+              placeholder='Last name'
+              value={lastName}
               onChange={onChange}
             />
-            <Button
-              variant='outline-secondary'
-              onClick={toggleRepeatPasswordVisibility}
-            >
-              {showRepeatPassword ? 'Hide' : 'Show'}
-            </Button>
-          </InputGroup>
-        </Form.Group>
+          </Form.Group>
 
-        {/* Conditional rendering of the password mismatch alert */}
-        {!passwordsMatch && (
-          <Alert variant='danger'>Passwords do not match.</Alert>
-        )}
+          <Form.Group className='mb-3' controlId='formEmail'>
+            <Form.Label>Email address</Form.Label>
+            <Form.Control
+              type='email'
+              name='email'
+              placeholder='Enter email'
+              value={email}
+              onChange={onChange}
+            />
+            <Form.Text className='text-muted'>
+              We'll never share your email with anyone else.
+            </Form.Text>
+          </Form.Group>
 
-        <Button variant='primary' type='submit'>
-          Submit
-        </Button>
-      </Form>
-      <p>
-        Already have an account? <Link to='/login'>Click here</Link> to login
-      </p>
+          <Form.Group className='mb-3' controlId='formPassword'>
+            <Form.Label>Password</Form.Label>
+            <InputGroup>
+              <Form.Control
+                type={showPassword ? 'text' : 'password'}
+                name='password'
+                placeholder='Password'
+                value={password}
+                onChange={onChange}
+              />
+              <Button
+                variant='outline-secondary'
+                onClick={togglePasswordVisibility}
+              >
+                {showPassword ? 'Hide' : 'Show'}
+              </Button>
+            </InputGroup>
+          </Form.Group>
+
+          <Form.Group className='mb-3' controlId='formRepeatPassword'>
+            <Form.Label>Repeat password</Form.Label>
+            <InputGroup>
+              <Form.Control
+                type={showRepeatPassword ? 'text' : 'password'}
+                name='repeatPassword'
+                placeholder='Repeat password'
+                value={repeatPassword}
+                onChange={onChange}
+              />
+              <Button
+                variant='outline-secondary'
+                onClick={toggleRepeatPasswordVisibility}
+              >
+                {showRepeatPassword ? 'Hide' : 'Show'}
+              </Button>
+            </InputGroup>
+          </Form.Group>
+
+          {/* Conditional rendering of the password mismatch alert */}
+          {!passwordsMatch && (
+            <Alert variant='danger'>Passwords do not match.</Alert>
+          )}
+
+          <Button variant='primary' type='submit'>
+            Submit
+          </Button>
+        </Form>
+        <p>
+          Already have an account? <Link to='/login'>Click here</Link> to login
+        </p>
+      </div>
     </Fragment>
   );
 };

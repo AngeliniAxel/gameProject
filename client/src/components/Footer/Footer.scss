@@ -1,0 +1,24 @@
+@import '../../style/variables.scss';
+
+.footer {
+  background-color: $dark;
+  color: $white;
+  position: fixed;
+  bottom: 0;
+  height: 40px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  p {
+    position: absolute;
+    top: 6px;
+    a {
+      text-decoration: none;
+      color: $white;
+    }
+    a:hover {
+      color: $green;
+    }
+  }
+}

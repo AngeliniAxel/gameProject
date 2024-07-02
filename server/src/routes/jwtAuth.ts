@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express';
 import pool from '../db';
 import bcrypt from 'bcrypt';
-import jwtGenerator from '../utils/jwtGenerator';
+import { accessJwtGenerator, refreshJwtGenerator } from '../utils/jwtGenerator';
 import validInfo from '../middleware/validInfo';
 import authorization from '../middleware/authorization';
 
@@ -34,11 +34,15 @@ router.post('/register', validInfo, async (req: Request, res: Response) => {
       [name, lastName, email, bcryptPassword]
     );
 
-    // Generate jwt token
+    // Generate jwt tokens
 
-    const token: string = jwtGenerator(newUser.rows[0].user_id);
+    const accessToken: string = accessJwtGenerator(newUser.rows[0].user_id);
 
-    res.json({ token });
+    const refreshToken: string = refreshJwtGenerator(user.rows[0].user_id);
+
+    res.cookie('refreshToken', refreshToken, { httpOnly: true });
+
+    res.json({ accessToken });
   } catch (err) {
     // Ensure err is of type Error
     if (err instanceof Error) {
@@ -81,9 +85,13 @@ router.post('/login', validInfo, async (req: Request, res: Response) => {
 
     //Give them the jwt token
 
-    const token: string = jwtGenerator(user.rows[0].user_id);
+    const accessToken: string = accessJwtGenerator(user.rows[0].user_id);
 
-    res.json({ token });
+    const refreshToken: string = refreshJwtGenerator(user.rows[0].user_id);
+
+    res.cookie('refreshToken', refreshToken, { httpOnly: true });
+
+    res.json({ accessToken });
   } catch (err) {
     // Ensure err is of type Error
     if (err instanceof Error) {

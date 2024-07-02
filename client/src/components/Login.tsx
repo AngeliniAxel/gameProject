@@ -11,6 +11,8 @@ import { setIsAuth } from '../features/userSlice';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../store';
 
+import '../style/styles.scss';
+
 const SERVER_API_ROUTE: string = 'http://localhost:5000';
 
 const Login = () => {
@@ -62,11 +64,11 @@ const Login = () => {
 
       const parseRes = await response.json();
 
-      if (!parseRes.token) {
+      if (!parseRes.accessToken) {
         updateCredentials(false, parseRes);
         toast.error(parseRes);
       } else {
-        localStorage.setItem('token', parseRes.token);
+        localStorage.setItem('accessToken', parseRes.accessToken);
 
         toast.success('Login successfully!!');
 
@@ -84,51 +86,53 @@ const Login = () => {
 
   return (
     <Fragment>
-      <h1 className='text-center my-5'>Login</h1>
-      <Form onSubmit={onSubmitForm}>
-        <Form.Group className='mb-3' controlId='formEmail'>
-          <Form.Label>Email address</Form.Label>
-          <Form.Control
-            type='email'
-            name='email'
-            placeholder='Enter email'
-            value={email}
-            onChange={onChange}
-          />
-        </Form.Group>
-
-        <Form.Group className='mb-3' controlId='formPassword'>
-          <Form.Label>Password</Form.Label>
-          <InputGroup>
+      <div className='wrapper'>
+        <h1 className='text-center '>Login</h1>
+        <Form onSubmit={onSubmitForm}>
+          <Form.Group className='mb-3' controlId='formEmail'>
+            <Form.Label>Email address</Form.Label>
             <Form.Control
-              type={showPassword ? 'text' : 'password'}
-              name='password'
-              placeholder='Password'
-              value={password}
+              type='email'
+              name='email'
+              placeholder='Enter email'
+              value={email}
               onChange={onChange}
             />
-            <Button
-              variant='outline-secondary'
-              onClick={togglePasswordVisibility}
-            >
-              {showPassword ? 'Hide' : 'Show'}
-            </Button>
-          </InputGroup>
-        </Form.Group>
+          </Form.Group>
 
-        {/* Conditional rendering for the wrong credentials*/}
-        {!correctCredentials.isCorrect && (
-          <Alert variant='danger'>{correctCredentials.message}</Alert>
-        )}
+          <Form.Group className='mb-3' controlId='formPassword'>
+            <Form.Label>Password</Form.Label>
+            <InputGroup>
+              <Form.Control
+                type={showPassword ? 'text' : 'password'}
+                name='password'
+                placeholder='Password'
+                value={password}
+                onChange={onChange}
+              />
+              <Button
+                variant='outline-secondary'
+                onClick={togglePasswordVisibility}
+              >
+                {showPassword ? 'Hide' : 'Show'}
+              </Button>
+            </InputGroup>
+          </Form.Group>
 
-        <Button variant='primary' type='submit'>
-          Submit
-        </Button>
-      </Form>
-      <p>
-        Don´t have an account? <Link to='/register'>Click here</Link> to
-        register
-      </p>
+          {/* Conditional rendering for the wrong credentials*/}
+          {!correctCredentials.isCorrect && (
+            <Alert variant='danger'>{correctCredentials.message}</Alert>
+          )}
+
+          <Button variant='primary' type='submit'>
+            Submit
+          </Button>
+        </Form>
+        <p>
+          Don´t have an account? <Link to='/register'>Click here</Link> to
+          register
+        </p>
+      </div>
     </Fragment>
   );
 };

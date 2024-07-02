@@ -1,0 +1,16 @@
+@import '../../style/variables.scss';
+
+.NavBar {
+  top: 0;
+  position: fixed;
+  width: 100%;
+  background-color: $dark;
+  a {
+    text-decoration: none;
+    color: $white !important;
+    margin-left: 10px;
+  }
+  a:hover {
+    color: $green !important;
+  }
+}
