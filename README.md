@@ -1,9 +1,32 @@
-I am creating a PERN stack application using typescript.
+### Login/Register Template
+This is a simple login/registration app using the PERN stack to practice typescript. The frontend is built with React and Redux, and the backend uses Node.js, Express and PostgreSQL.
 
-The idea is to create a web app with a game developed in phaser.js and using react for developing the interface and a login/registration system with node.js and postgres.
+## Frontend Routes
 
-Users will be able to create account, personalize their character and save game level.
+- `/login`: Login page
+- `/register`: Registration page
+- `/dashboard`: For now it is just a welcome message taking the user's name from the Redux state.
+- `/game`: Game page (accessible only after login)
 
-All the functionality of the login/register part of my app is created.
+## Backend Routes
 
-Next thing to do is design the aspect a little bit and then everything will be ready to start with the game!
+### Auth Routes
+
+- `POST /register`
+  - Registers a new user
+  - Request body: `{ name, lastName, email, password }`
+
+- `POST /login`
+  - Logs in an existing user
+  - Request body: `{ email, password }`
+ 
+ - `GET /is-verify`
+  - Returns true if the authorization middleware is ok
+
+### Middlewares
+
+- Authorization
+  - Verifies if the token is valid
+
+- Authorization
+  - Verifies if the email is valid
