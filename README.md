@@ -6,7 +6,6 @@ This is a simple login/registration app using the PERN stack to practice typescr
 - `/login`: Login page
 - `/register`: Registration page
 - `/dashboard`: For now it is just a welcome message taking the user's name from the Redux state.
-- `/game`: Game page (accessible only after login)
 
 ## Backend Routes
 
